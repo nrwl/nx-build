@@ -1,13 +1,13 @@
 {
   "name": "@nrwl/nx",
-  "version": "0.0.1",
+  "version": "0.0.1+c992a7e",
   "description": "Angular Extensions",
   "main": "index.js",
-  "dependencies" :{
-    "jasmine-marbles": "0.1.0",
-    "@nrwl/schematics": "0.0.1"
+  "types": "index.d.js",
+  "dependencies": {
+    "jasmine-marbles": "0.1.0"
   },
-  "peerDependencies" :{
+  "peerDependencies": {
     "rxjs": ">5.4.2",
     "@angular/core": ">4.0.0",
     "@angular/common": ">4.0.0",
