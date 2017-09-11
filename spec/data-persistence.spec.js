@@ -45,18 +45,18 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
-var index_1 = require("../index");
-var effects_1 = require("@ngrx/effects");
-var router_1 = require("@angular/router");
-var store_1 = require("@ngrx/store");
-var testing_1 = require("@angular/core/testing");
-var testing_2 = require("@angular/router/testing");
 var core_1 = require("@angular/core");
+var testing_1 = require("@angular/core/testing");
+var router_1 = require("@angular/router");
+var testing_2 = require("@angular/router/testing");
+var effects_1 = require("@ngrx/effects");
+var testing_3 = require("@ngrx/effects/testing");
 var router_store_1 = require("@ngrx/router-store");
+var store_1 = require("@ngrx/store");
 var of_1 = require("rxjs/observable/of");
 var throw_1 = require("rxjs/observable/throw");
-var testing_3 = require("@ngrx/effects/testing");
 var Subject_1 = require("rxjs/Subject");
+var index_1 = require("../index");
 var testing_4 = require("../testing");
 // reducers
 function todosReducer(state, action) {
@@ -74,9 +74,7 @@ var RootCmp = (function () {
     function RootCmp() {
     }
     RootCmp = __decorate([
-        core_1.Component({
-            template: "ROOT[<router-outlet></router-outlet>]"
-        })
+        core_1.Component({ template: "ROOT[<router-outlet></router-outlet>]" })
     ], RootCmp);
     return RootCmp;
 }());
@@ -97,20 +95,12 @@ describe('DataPersistence', function () {
     describe('navigation', function () {
         beforeEach(function () {
             testing_1.TestBed.configureTestingModule({
-                declarations: [
-                    RootCmp,
-                    TodoComponent
-                ],
+                declarations: [RootCmp, TodoComponent],
                 imports: [
-                    store_1.StoreModule.forRoot({ todos: todosReducer, user: userReducer }),
-                    router_store_1.StoreRouterConnectingModule,
-                    testing_2.RouterTestingModule.withRoutes([
-                        { path: 'todo/:id', component: TodoComponent }
-                    ])
+                    store_1.StoreModule.forRoot({ todos: todosReducer, user: userReducer }), router_store_1.StoreRouterConnectingModule,
+                    testing_2.RouterTestingModule.withRoutes([{ path: 'todo/:id', component: TodoComponent }])
                 ],
-                providers: [
-                    index_1.DataPersistence
-                ]
+                providers: [index_1.DataPersistence]
             });
         });
         describe('successful navigation', function () {
@@ -119,15 +109,11 @@ describe('DataPersistence', function () {
                     this.s = s;
                     this.loadTodo = this.s.navigation(TodoComponent, {
                         run: function (a, state) {
-                            return ({
-                                type: 'TODO_LOADED',
-                                payload: {
-                                    id: a.params['id'],
-                                    user: state.user
-                                }
-                            });
+                            return ({ type: 'TODO_LOADED', payload: { id: a.params['id'], user: state.user } });
                         },
-                        onError: function () { return null; }
+                        onError: function () {
+                            return null;
+                        }
                     });
                 }
                 __decorate([
@@ -141,10 +127,7 @@ describe('DataPersistence', function () {
                 return TodoEffects;
             }());
             beforeEach(function () {
-                testing_1.TestBed.configureTestingModule({
-                    providers: [TodoEffects],
-                    imports: [effects_1.EffectsModule.forRoot([TodoEffects])]
-                });
+                testing_1.TestBed.configureTestingModule({ providers: [TodoEffects], imports: [effects_1.EffectsModule.forRoot([TodoEffects])] });
             });
             it('should work', testing_1.fakeAsync(function () {
                 var root = testing_1.TestBed.createComponent(RootCmp);
@@ -166,22 +149,11 @@ describe('DataPersistence', function () {
                                 throw new Error('boom');
                             }
                             else {
-                                return ({
-                                    type: 'TODO_LOADED',
-                                    payload: {
-                                        id: a.params['id'],
-                                        user: state.user
-                                    }
-                                });
+                                return ({ type: 'TODO_LOADED', payload: { id: a.params['id'], user: state.user } });
                             }
                         },
                         onError: function (a, e) {
-                            return ({
-                                type: 'ERROR',
-                                payload: {
-                                    error: e
-                                }
-                            });
+                            return ({ type: 'ERROR', payload: { error: e } });
                         }
                     });
                 }
@@ -196,10 +168,7 @@ describe('DataPersistence', function () {
                 return TodoEffects;
             }());
             beforeEach(function () {
-                testing_1.TestBed.configureTestingModule({
-                    providers: [TodoEffects],
-                    imports: [effects_1.EffectsModule.forRoot([TodoEffects])]
-                });
+                testing_1.TestBed.configureTestingModule({ providers: [TodoEffects], imports: [effects_1.EffectsModule.forRoot([TodoEffects])] });
             });
             it('should work', testing_1.fakeAsync(function () {
                 var root = testing_1.TestBed.createComponent(RootCmp);
@@ -229,22 +198,11 @@ describe('DataPersistence', function () {
                                 return throw_1._throw('boom');
                             }
                             else {
-                                return ({
-                                    type: 'TODO_LOADED',
-                                    payload: {
-                                        id: a.params['id'],
-                                        user: state.user
-                                    }
-                                });
+                                return ({ type: 'TODO_LOADED', payload: { id: a.params['id'], user: state.user } });
                             }
                         },
                         onError: function (a, e) {
-                            return ({
-                                type: 'ERROR',
-                                payload: {
-                                    error: e
-                                }
-                            });
+                            return ({ type: 'ERROR', payload: { error: e } });
                         }
                     });
                 }
@@ -259,10 +217,7 @@ describe('DataPersistence', function () {
                 return TodoEffects;
             }());
             beforeEach(function () {
-                testing_1.TestBed.configureTestingModule({
-                    providers: [TodoEffects],
-                    imports: [effects_1.EffectsModule.forRoot([TodoEffects])]
-                });
+                testing_1.TestBed.configureTestingModule({ providers: [TodoEffects], imports: [effects_1.EffectsModule.forRoot([TodoEffects])] });
             });
             it('should work', testing_1.fakeAsync(function () {
                 var root = testing_1.TestBed.createComponent(RootCmp);
@@ -284,11 +239,7 @@ describe('DataPersistence', function () {
     });
     describe('fetch', function () {
         beforeEach(function () {
-            testing_1.TestBed.configureTestingModule({
-                providers: [
-                    index_1.DataPersistence
-                ]
-            });
+            testing_1.TestBed.configureTestingModule({ providers: [index_1.DataPersistence] });
         });
         describe('successful', function () {
             var TodoEffects = (function () {
@@ -296,13 +247,7 @@ describe('DataPersistence', function () {
                     this.s = s;
                     this.loadTodo = this.s.fetch('GET_TODOS', {
                         run: function (a, state) {
-                            return ({
-                                type: 'TODOS',
-                                payload: {
-                                    user: state.user,
-                                    todos: 'some todos'
-                                }
-                            });
+                            return ({ type: 'TODOS', payload: { user: state.user, todos: 'some todos' } });
                         },
                         onError: function (a, e) {
                             return null;
@@ -335,18 +280,12 @@ describe('DataPersistence', function () {
                 return __generator(this, function (_b) {
                     switch (_b.label) {
                         case 0:
-                            actions = of_1.of({
-                                type: 'GET_TODOS',
-                                payload: {}
-                            });
+                            actions = of_1.of({ type: 'GET_TODOS', payload: {} });
                             _a = expect;
                             return [4 /*yield*/, testing_4.readAll(testing_1.TestBed.get(TodoEffects).loadTodo)];
                         case 1:
                             _a.apply(void 0, [_b.sent()]).toEqual([
-                                {
-                                    type: 'TODOS',
-                                    payload: { user: 'bob', todos: 'some todos' }
-                                }
+                                { type: 'TODOS', payload: { user: 'bob', todos: 'some todos' } }
                             ]);
                             done();
                             return [2 /*return*/];
@@ -357,11 +296,7 @@ describe('DataPersistence', function () {
     });
     describe('pessimisticUpdate', function () {
         beforeEach(function () {
-            testing_1.TestBed.configureTestingModule({
-                providers: [
-                    index_1.DataPersistence
-                ]
-            });
+            testing_1.TestBed.configureTestingModule({ providers: [index_1.DataPersistence] });
         });
         describe('successful', function () {
             var TodoEffects = (function () {
@@ -369,13 +304,7 @@ describe('DataPersistence', function () {
                     this.s = s;
                     this.loadTodo = this.s.pessimisticUpdate('UPDATE_TODO', {
                         run: function (a, state) {
-                            return ({
-                                type: 'TODO_UPDATED',
-                                payload: {
-                                    user: state.user,
-                                    newTitle: a.payload.newTitle
-                                }
-                            });
+                            return ({ type: 'TODO_UPDATED', payload: { user: state.user, newTitle: a.payload.newTitle } });
                         },
                         onError: function (a, e) {
                             return null;
@@ -408,18 +337,12 @@ describe('DataPersistence', function () {
                 return __generator(this, function (_b) {
                     switch (_b.label) {
                         case 0:
-                            actions = of_1.of({
-                                type: 'UPDATE_TODO',
-                                payload: { newTitle: 'newTitle' }
-                            });
+                            actions = of_1.of({ type: 'UPDATE_TODO', payload: { newTitle: 'newTitle' } });
                             _a = expect;
                             return [4 /*yield*/, testing_4.readAll(testing_1.TestBed.get(TodoEffects).loadTodo)];
                         case 1:
                             _a.apply(void 0, [_b.sent()]).toEqual([
-                                {
-                                    type: 'TODO_UPDATED',
-                                    payload: { user: 'bob', newTitle: 'newTitle' }
-                                }
+                                { type: 'TODO_UPDATED', payload: { user: 'bob', newTitle: 'newTitle' } }
                             ]);
                             done();
                             return [2 /*return*/];
@@ -436,12 +359,7 @@ describe('DataPersistence', function () {
                             throw new Error('boom');
                         },
                         onError: function (a, e) {
-                            return ({
-                                type: 'ERROR',
-                                payload: {
-                                    error: e
-                                }
-                            });
+                            return ({ type: 'ERROR', payload: { error: e } });
                         }
                     });
                 }
@@ -471,10 +389,7 @@ describe('DataPersistence', function () {
                 return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0:
-                            actions = of_1.of({
-                                type: 'UPDATE_TODO',
-                                payload: { newTitle: 'newTitle' }
-                            });
+                            actions = of_1.of({ type: 'UPDATE_TODO', payload: { newTitle: 'newTitle' } });
                             return [4 /*yield*/, testing_4.readAll(testing_1.TestBed.get(TodoEffects).loadTodo)];
                         case 1:
                             a = (_a.sent())[0];
@@ -495,12 +410,7 @@ describe('DataPersistence', function () {
                             return throw_1._throw('boom');
                         },
                         onError: function (a, e) {
-                            return ({
-                                type: 'ERROR',
-                                payload: {
-                                    error: e
-                                }
-                            });
+                            return ({ type: 'ERROR', payload: { error: e } });
                         }
                     });
                 }
@@ -530,10 +440,7 @@ describe('DataPersistence', function () {
                 return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0:
-                            actions = of_1.of({
-                                type: 'UPDATE_TODO',
-                                payload: { newTitle: 'newTitle' }
-                            });
+                            actions = of_1.of({ type: 'UPDATE_TODO', payload: { newTitle: 'newTitle' } });
                             return [4 /*yield*/, testing_4.readAll(testing_1.TestBed.get(TodoEffects).loadTodo)];
                         case 1:
                             a = (_a.sent())[0];
@@ -548,11 +455,7 @@ describe('DataPersistence', function () {
     });
     describe('optimisticUpdate', function () {
         beforeEach(function () {
-            testing_1.TestBed.configureTestingModule({
-                providers: [
-                    index_1.DataPersistence
-                ]
-            });
+            testing_1.TestBed.configureTestingModule({ providers: [index_1.DataPersistence] });
         });
         describe('`run` throws an error', function () {
             var TodoEffects = (function () {
@@ -563,10 +466,7 @@ describe('DataPersistence', function () {
                             throw new Error('boom');
                         },
                         undoAction: function (a, e) {
-                            return ({
-                                type: 'UNDO_UPDATE_TODO',
-                                payload: a.payload
-                            });
+                            return ({ type: 'UNDO_UPDATE_TODO', payload: a.payload });
                         }
                     });
                 }
@@ -596,10 +496,7 @@ describe('DataPersistence', function () {
                 return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0:
-                            actions = of_1.of({
-                                type: 'UPDATE_TODO',
-                                payload: { newTitle: 'newTitle' }
-                            });
+                            actions = of_1.of({ type: 'UPDATE_TODO', payload: { newTitle: 'newTitle' } });
                             return [4 /*yield*/, testing_4.readAll(testing_1.TestBed.get(TodoEffects).loadTodo)];
                         case 1:
                             a = (_a.sent())[0];
