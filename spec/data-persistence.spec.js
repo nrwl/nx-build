@@ -1,13 +1,4 @@
 "use strict";
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -57,6 +48,7 @@ var of_1 = require("rxjs/observable/of");
 var throw_1 = require("rxjs/observable/throw");
 var Subject_1 = require("rxjs/Subject");
 var index_1 = require("../index");
+var nx_module_1 = require("../src/nx.module");
 var testing_4 = require("../testing");
 // reducers
 function todosReducer(state, action) {
@@ -73,9 +65,11 @@ function userReducer(state, action) {
 var RootCmp = (function () {
     function RootCmp() {
     }
-    RootCmp = __decorate([
-        core_1.Component({ template: "ROOT[<router-outlet></router-outlet>]" })
-    ], RootCmp);
+    RootCmp.decorators = [
+        { type: core_1.Component, args: [{ template: "ROOT[<router-outlet></router-outlet>]" },] },
+    ];
+    /** @nocollapse */
+    RootCmp.ctorParameters = function () { return []; };
     return RootCmp;
 }());
 var TodoComponent = (function () {
@@ -83,12 +77,15 @@ var TodoComponent = (function () {
         this.store = store;
         this.todo = this.store.select('todos', 'selected');
     }
-    TodoComponent = __decorate([
-        core_1.Component({
-            template: "\n      Todo [\n        <div *ngIf=\"(todo|async) as t\">\n           ID {{t.id}}\n           User {{t.user}}\n        </div>\n      ]\n    "
-        }),
-        __metadata("design:paramtypes", [store_1.Store])
-    ], TodoComponent);
+    TodoComponent.decorators = [
+        { type: core_1.Component, args: [{
+                    template: "\n      Todo [\n        <div *ngIf=\"(todo|async) as t\">\n           ID {{t.id}}\n           User {{t.user}}\n        </div>\n      ]\n    "
+                },] },
+    ];
+    /** @nocollapse */
+    TodoComponent.ctorParameters = function () { return [
+        { type: store_1.Store, },
+    ]; };
     return TodoComponent;
 }());
 describe('DataPersistence', function () {
@@ -98,9 +95,8 @@ describe('DataPersistence', function () {
                 declarations: [RootCmp, TodoComponent],
                 imports: [
                     store_1.StoreModule.forRoot({ todos: todosReducer, user: userReducer }), router_store_1.StoreRouterConnectingModule,
-                    testing_2.RouterTestingModule.withRoutes([{ path: 'todo/:id', component: TodoComponent }])
-                ],
-                providers: [index_1.DataPersistence]
+                    testing_2.RouterTestingModule.withRoutes([{ path: 'todo/:id', component: TodoComponent }]), nx_module_1.NxModule.forRoot()
+                ]
             });
         });
         describe('successful navigation', function () {
@@ -116,14 +112,16 @@ describe('DataPersistence', function () {
                         }
                     });
                 }
-                __decorate([
-                    effects_1.Effect(),
-                    __metadata("design:type", Object)
-                ], TodoEffects.prototype, "loadTodo", void 0);
-                TodoEffects = __decorate([
-                    core_1.Injectable(),
-                    __metadata("design:paramtypes", [index_1.DataPersistence])
-                ], TodoEffects);
+                TodoEffects.decorators = [
+                    { type: core_1.Injectable },
+                ];
+                /** @nocollapse */
+                TodoEffects.ctorParameters = function () { return [
+                    { type: index_1.DataPersistence, },
+                ]; };
+                TodoEffects.propDecorators = {
+                    'loadTodo': [{ type: effects_1.Effect },],
+                };
                 return TodoEffects;
             }());
             beforeEach(function () {
@@ -157,14 +155,16 @@ describe('DataPersistence', function () {
                         }
                     });
                 }
-                __decorate([
-                    effects_1.Effect(),
-                    __metadata("design:type", Object)
-                ], TodoEffects.prototype, "loadTodo", void 0);
-                TodoEffects = __decorate([
-                    core_1.Injectable(),
-                    __metadata("design:paramtypes", [index_1.DataPersistence])
-                ], TodoEffects);
+                TodoEffects.decorators = [
+                    { type: core_1.Injectable },
+                ];
+                /** @nocollapse */
+                TodoEffects.ctorParameters = function () { return [
+                    { type: index_1.DataPersistence, },
+                ]; };
+                TodoEffects.propDecorators = {
+                    'loadTodo': [{ type: effects_1.Effect },],
+                };
                 return TodoEffects;
             }());
             beforeEach(function () {
@@ -206,14 +206,16 @@ describe('DataPersistence', function () {
                         }
                     });
                 }
-                __decorate([
-                    effects_1.Effect(),
-                    __metadata("design:type", Object)
-                ], TodoEffects.prototype, "loadTodo", void 0);
-                TodoEffects = __decorate([
-                    core_1.Injectable(),
-                    __metadata("design:paramtypes", [index_1.DataPersistence])
-                ], TodoEffects);
+                TodoEffects.decorators = [
+                    { type: core_1.Injectable },
+                ];
+                /** @nocollapse */
+                TodoEffects.ctorParameters = function () { return [
+                    { type: index_1.DataPersistence, },
+                ]; };
+                TodoEffects.propDecorators = {
+                    'loadTodo': [{ type: effects_1.Effect },],
+                };
                 return TodoEffects;
             }());
             beforeEach(function () {
@@ -254,14 +256,16 @@ describe('DataPersistence', function () {
                         }
                     });
                 }
-                __decorate([
-                    effects_1.Effect(),
-                    __metadata("design:type", Object)
-                ], TodoEffects.prototype, "loadTodo", void 0);
-                TodoEffects = __decorate([
-                    core_1.Injectable(),
-                    __metadata("design:paramtypes", [index_1.DataPersistence])
-                ], TodoEffects);
+                TodoEffects.decorators = [
+                    { type: core_1.Injectable },
+                ];
+                /** @nocollapse */
+                TodoEffects.ctorParameters = function () { return [
+                    { type: index_1.DataPersistence, },
+                ]; };
+                TodoEffects.propDecorators = {
+                    'loadTodo': [{ type: effects_1.Effect },],
+                };
                 return TodoEffects;
             }());
             function userReducer() {
@@ -311,14 +315,16 @@ describe('DataPersistence', function () {
                         }
                     });
                 }
-                __decorate([
-                    effects_1.Effect(),
-                    __metadata("design:type", Object)
-                ], TodoEffects.prototype, "loadTodo", void 0);
-                TodoEffects = __decorate([
-                    core_1.Injectable(),
-                    __metadata("design:paramtypes", [index_1.DataPersistence])
-                ], TodoEffects);
+                TodoEffects.decorators = [
+                    { type: core_1.Injectable },
+                ];
+                /** @nocollapse */
+                TodoEffects.ctorParameters = function () { return [
+                    { type: index_1.DataPersistence, },
+                ]; };
+                TodoEffects.propDecorators = {
+                    'loadTodo': [{ type: effects_1.Effect },],
+                };
                 return TodoEffects;
             }());
             function userReducer() {
@@ -363,14 +369,16 @@ describe('DataPersistence', function () {
                         }
                     });
                 }
-                __decorate([
-                    effects_1.Effect(),
-                    __metadata("design:type", Object)
-                ], TodoEffects.prototype, "loadTodo", void 0);
-                TodoEffects = __decorate([
-                    core_1.Injectable(),
-                    __metadata("design:paramtypes", [index_1.DataPersistence])
-                ], TodoEffects);
+                TodoEffects.decorators = [
+                    { type: core_1.Injectable },
+                ];
+                /** @nocollapse */
+                TodoEffects.ctorParameters = function () { return [
+                    { type: index_1.DataPersistence, },
+                ]; };
+                TodoEffects.propDecorators = {
+                    'loadTodo': [{ type: effects_1.Effect },],
+                };
                 return TodoEffects;
             }());
             function userReducer() {
@@ -414,14 +422,16 @@ describe('DataPersistence', function () {
                         }
                     });
                 }
-                __decorate([
-                    effects_1.Effect(),
-                    __metadata("design:type", Object)
-                ], TodoEffects.prototype, "loadTodo", void 0);
-                TodoEffects = __decorate([
-                    core_1.Injectable(),
-                    __metadata("design:paramtypes", [index_1.DataPersistence])
-                ], TodoEffects);
+                TodoEffects.decorators = [
+                    { type: core_1.Injectable },
+                ];
+                /** @nocollapse */
+                TodoEffects.ctorParameters = function () { return [
+                    { type: index_1.DataPersistence, },
+                ]; };
+                TodoEffects.propDecorators = {
+                    'loadTodo': [{ type: effects_1.Effect },],
+                };
                 return TodoEffects;
             }());
             function userReducer() {
@@ -470,14 +480,16 @@ describe('DataPersistence', function () {
                         }
                     });
                 }
-                __decorate([
-                    effects_1.Effect(),
-                    __metadata("design:type", Object)
-                ], TodoEffects.prototype, "loadTodo", void 0);
-                TodoEffects = __decorate([
-                    core_1.Injectable(),
-                    __metadata("design:paramtypes", [index_1.DataPersistence])
-                ], TodoEffects);
+                TodoEffects.decorators = [
+                    { type: core_1.Injectable },
+                ];
+                /** @nocollapse */
+                TodoEffects.ctorParameters = function () { return [
+                    { type: index_1.DataPersistence, },
+                ]; };
+                TodoEffects.propDecorators = {
+                    'loadTodo': [{ type: effects_1.Effect },],
+                };
                 return TodoEffects;
             }());
             function userReducer() {

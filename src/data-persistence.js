@@ -1,13 +1,4 @@
 "use strict";
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var effects_1 = require("@ngrx/effects");
@@ -21,10 +12,7 @@ var map_1 = require("rxjs/operator/map");
 var switchMap_1 = require("rxjs/operator/switchMap");
 var withLatestFrom_1 = require("rxjs/operator/withLatestFrom");
 /**
- * Provides convenience methods for implementing common NgRx/Router workflows
- *
- * * `navigation` handles fetching data when handling router navigation.
- * * `pessimisticUpdate` handles updating the server before or after the client has been updated.
+ * @whatItDoes Provides convenience methods for implementing common operations of talking to the backend.
  */
 var DataPersistence = (function () {
     function DataPersistence(store, actions) {
@@ -33,11 +21,16 @@ var DataPersistence = (function () {
     }
     /**
      *
-     * Handles pessimistic updates (updating the server first).
+     * @whatItDoes Handles pessimistic updates (updating the server first).
      *
-     * Example:
+     * It provides the action and the current state. It runs all updates in order by using `concatMap` to prevent race
+     * conditions.
      *
-     * ```
+     * * `run` callback must return an action or an observable with an action.
+     * * `onError` is called when a server update was not successful.
+     * ## Example:
+     *
+     * ```typescript
      * @Injectable()
      * class TodoEffects {
      *   @Effect() updateTodo = this.s.pessimisticUpdate('UPDATE_TODO', {
@@ -61,7 +54,6 @@ var DataPersistence = (function () {
      *   constructor(private s: DataPersistence<TodosState>, private backend: Backend) {}
      * }
      * ```
-     *
      */
     DataPersistence.prototype.pessimisticUpdate = function (actionType, opts) {
         var nav = this.actions.ofType(actionType);
@@ -70,11 +62,18 @@ var DataPersistence = (function () {
     };
     /**
      *
-     * Handles optimistic updates (updating the client first).
+     * @whatItDoes Handles optimistic updates (updating the client first).
      *
-     * Example:
+     * It provides the action and the current state. It runs all updates in order by using `concatMap` to prevent race
+     * conditions.
      *
-     * ```
+     * * `run` callback must return an action or an observable with an action.
+     * * `undoAction` is called server update was not successful. It must return an action or an observable with an action
+     * to undo the changes in the client state.
+     *
+     * ## Example:
+     *
+     * ```typescript
      * @Injectable()
      * class TodoEffects {
      *   @Effect() updateTodo = this.s.optimisticUpdate('UPDATE_TODO', {
@@ -103,11 +102,16 @@ var DataPersistence = (function () {
     };
     /**
      *
-     * Handles data fetching.
+     * @whatItDoes Handles data fetching.
      *
-     * Example:
+     * It provides the action and the current state. It only runs the last fetch by using `switchMap`.
      *
-     * ```
+     * * `run` callback must return an action or an observable with an action.
+     * * `onError` is called when a server request was not successful.
+     *
+     * ## Example:
+     *
+     * ```typescript
      * @Injectable()
      * class TodoEffects {
      *   @Effect() loadTodo = this.s.fetch('GET_TODOS', {
@@ -135,12 +139,18 @@ var DataPersistence = (function () {
         return switchMap_1.switchMap.call(pairs, this.runWithErrorHandling(opts.run, opts.onError));
     };
     /**
-     * Handles ROUTER_NAVIGATION event.
+     * @whatItDoes Handles data fetching as part of router navigation.
      *
-     * This is useful for loading extra data needed for a router navigation.
+     * It checks if an activated router state contains the passed in component type, and, if it does, runs the `run`
+     * callback. It provides the activated snapshot associated with the component and the current state. It only runs the
+     * last request by using `switchMap`.
      *
-     * Example:
-     * ```
+     * * `run` callback must return an action or an observable with an action.
+     * * `onError` is called when a server request was not successful.
+     *
+     * ## Example:
+     *
+     * ```typescript
      * @Injectable()
      * class TodoEffects {
      *   @Effect() loadTodo = this.s.navigation(TodoComponent, {
@@ -177,10 +187,14 @@ var DataPersistence = (function () {
             }
         };
     };
-    DataPersistence = __decorate([
-        core_1.Injectable(),
-        __metadata("design:paramtypes", [store_1.Store, effects_1.Actions])
-    ], DataPersistence);
+    DataPersistence.decorators = [
+        { type: core_1.Injectable },
+    ];
+    /** @nocollapse */
+    DataPersistence.ctorParameters = function () { return [
+        { type: store_1.Store, },
+        { type: effects_1.Actions, },
+    ]; };
     return DataPersistence;
 }());
 exports.DataPersistence = DataPersistence;

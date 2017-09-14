@@ -4,38 +4,35 @@ import { Actions } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 /**
- * See DataPersistence.pessimisticUpdate for more information.
+ * See {@link DataPersistence.pessimisticUpdate} for more information.
  */
 export interface PessimisticUpdateOpts {
     run(a: Action, state?: any): Observable<Action> | Action | void;
     onError(a: Action, e: any): Observable<any> | any;
 }
 /**
- * See DataPersistence.pessimisticUpdate for more information.
+ * See {@link DataPersistence.pessimisticUpdate} for more information.
  */
 export interface OptimisticUpdateOpts {
     run(a: Action, state?: any): Observable<any> | any;
     undoAction(a: Action, e: any): Observable<Action> | Action;
 }
 /**
- * See DataPersistence.navigation for more information.
+ * See {@link DataPersistence.navigation} for more information.
  */
 export interface FetchOpts {
     run(a: Action, state?: any): Observable<Action> | Action | void;
     onError?(a: Action, e: any): Observable<any> | any;
 }
 /**
- * See DataPersistence.navigation for more information.
+ * See {@link DataPersistence.navigation} for more information.
  */
 export interface HandleNavigationOpts {
     run(a: ActivatedRouteSnapshot, state?: any): Observable<Action> | Action | void;
     onError?(a: ActivatedRouteSnapshot, e: any): Observable<any> | any;
 }
 /**
- * Provides convenience methods for implementing common NgRx/Router workflows
- *
- * * `navigation` handles fetching data when handling router navigation.
- * * `pessimisticUpdate` handles updating the server before or after the client has been updated.
+ * @whatItDoes Provides convenience methods for implementing common operations of talking to the backend.
  */
 export declare class DataPersistence<T> {
     store: Store<T>;
@@ -43,11 +40,16 @@ export declare class DataPersistence<T> {
     constructor(store: Store<T>, actions: Actions);
     /**
      *
-     * Handles pessimistic updates (updating the server first).
+     * @whatItDoes Handles pessimistic updates (updating the server first).
      *
-     * Example:
+     * It provides the action and the current state. It runs all updates in order by using `concatMap` to prevent race
+     * conditions.
      *
-     * ```
+     * * `run` callback must return an action or an observable with an action.
+     * * `onError` is called when a server update was not successful.
+     * ## Example:
+     *
+     * ```typescript
      * @Injectable()
      * class TodoEffects {
      *   @Effect() updateTodo = this.s.pessimisticUpdate('UPDATE_TODO', {
@@ -71,16 +73,22 @@ export declare class DataPersistence<T> {
      *   constructor(private s: DataPersistence<TodosState>, private backend: Backend) {}
      * }
      * ```
-     *
      */
     pessimisticUpdate(actionType: string, opts: PessimisticUpdateOpts): Observable<any>;
     /**
      *
-     * Handles optimistic updates (updating the client first).
+     * @whatItDoes Handles optimistic updates (updating the client first).
      *
-     * Example:
+     * It provides the action and the current state. It runs all updates in order by using `concatMap` to prevent race
+     * conditions.
      *
-     * ```
+     * * `run` callback must return an action or an observable with an action.
+     * * `undoAction` is called server update was not successful. It must return an action or an observable with an action
+     * to undo the changes in the client state.
+     *
+     * ## Example:
+     *
+     * ```typescript
      * @Injectable()
      * class TodoEffects {
      *   @Effect() updateTodo = this.s.optimisticUpdate('UPDATE_TODO', {
@@ -105,11 +113,16 @@ export declare class DataPersistence<T> {
     optimisticUpdate(actionType: string, opts: OptimisticUpdateOpts): Observable<any>;
     /**
      *
-     * Handles data fetching.
+     * @whatItDoes Handles data fetching.
      *
-     * Example:
+     * It provides the action and the current state. It only runs the last fetch by using `switchMap`.
      *
-     * ```
+     * * `run` callback must return an action or an observable with an action.
+     * * `onError` is called when a server request was not successful.
+     *
+     * ## Example:
+     *
+     * ```typescript
      * @Injectable()
      * class TodoEffects {
      *   @Effect() loadTodo = this.s.fetch('GET_TODOS', {
@@ -133,12 +146,18 @@ export declare class DataPersistence<T> {
      */
     fetch(actionType: string, opts: FetchOpts): Observable<any>;
     /**
-     * Handles ROUTER_NAVIGATION event.
+     * @whatItDoes Handles data fetching as part of router navigation.
      *
-     * This is useful for loading extra data needed for a router navigation.
+     * It checks if an activated router state contains the passed in component type, and, if it does, runs the `run`
+     * callback. It provides the activated snapshot associated with the component and the current state. It only runs the
+     * last request by using `switchMap`.
      *
-     * Example:
-     * ```
+     * * `run` callback must return an action or an observable with an action.
+     * * `onError` is called when a server request was not successful.
+     *
+     * ## Example:
+     *
+     * ```typescript
      * @Injectable()
      * class TodoEffects {
      *   @Effect() loadTodo = this.s.navigation(TodoComponent, {
