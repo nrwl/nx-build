@@ -1,6 +1,6 @@
 {
   "name": "@nrwl/nx",
-  "version": "0.0.1+cbd0482",
+  "version": "0.0.1+dce85bd",
   "description": "Nrwl Extensions for Angular",
   "main": "index.js",
   "types": "index.d.js",
