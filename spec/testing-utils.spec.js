@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
-var from_1 = require("rxjs/Observable/from");
+var from_1 = require("rxjs/observable/from");
 var testing_utils_1 = require("../src/testing-utils");
 describe('TestingUtils', function () {
     describe('readAll', function () {

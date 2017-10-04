@@ -3,7 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var data_persistence_1 = require("./data-persistence");
 /**
- * @whatItDoes Provides services simplifying enterprise Angular development.
+ * @whatItDoes Provides services for enterprise Angular applications.
+ *
+ * See {@link DataPersistence} for more information.
  */
 var NxModule = (function () {
     function NxModule() {

@@ -36,6 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 var _this = this;
 Object.defineProperty(exports, "__esModule", { value: true });
+require("rxjs/add/operator/delay");
 var core_1 = require("@angular/core");
 var testing_1 = require("@angular/core/testing");
 var router_1 = require("@angular/router");
@@ -243,13 +244,73 @@ describe('DataPersistence', function () {
         beforeEach(function () {
             testing_1.TestBed.configureTestingModule({ providers: [index_1.DataPersistence] });
         });
-        describe('successful', function () {
+        describe('no id', function () {
             var TodoEffects = (function () {
                 function TodoEffects(s) {
                     this.s = s;
-                    this.loadTodo = this.s.fetch('GET_TODOS', {
+                    this.loadTodos = this.s.fetch('GET_TODOS', {
                         run: function (a, state) {
-                            return ({ type: 'TODOS', payload: { user: state.user, todos: 'some todos' } });
+                            // we need to introduce the delay to "enable" switchMap
+                            return of_1.of({ type: 'TODOS', payload: { user: state.user, todos: 'some todos' } }).delay(1);
+                        },
+                        onError: function (a, e) {
+                            return null;
+                        }
+                    });
+                }
+                TodoEffects.decorators = [
+                    { type: core_1.Injectable },
+                ];
+                /** @nocollapse */
+                TodoEffects.ctorParameters = function () { return [
+                    { type: index_1.DataPersistence, },
+                ]; };
+                TodoEffects.propDecorators = {
+                    'loadTodos': [{ type: effects_1.Effect },],
+                };
+                return TodoEffects;
+            }());
+            function userReducer() {
+                return 'bob';
+            }
+            var actions;
+            beforeEach(function () {
+                actions = new Subject_1.Subject();
+                testing_1.TestBed.configureTestingModule({
+                    providers: [TodoEffects, testing_3.provideMockActions(function () { return actions; })],
+                    imports: [store_1.StoreModule.forRoot({ user: userReducer })]
+                });
+            });
+            it('should work', function (done) { return __awaiter(_this, void 0, void 0, function () {
+                var _a;
+                return __generator(this, function (_b) {
+                    switch (_b.label) {
+                        case 0:
+                            actions = of_1.of({ type: 'GET_TODOS', payload: {} }, { type: 'GET_TODOS', payload: {} });
+                            _a = expect;
+                            return [4 /*yield*/, testing_4.readAll(testing_1.TestBed.get(TodoEffects).loadTodos)];
+                        case 1:
+                            _a.apply(void 0, [_b.sent()]).toEqual([
+                                { type: 'TODOS', payload: { user: 'bob', todos: 'some todos' } },
+                                { type: 'TODOS', payload: { user: 'bob', todos: 'some todos' } }
+                            ]);
+                            done();
+                            return [2 /*return*/];
+                    }
+                });
+            }); });
+        });
+        describe('id', function () {
+            var TodoEffects = (function () {
+                function TodoEffects(s) {
+                    this.s = s;
+                    this.loadTodo = this.s.fetch('GET_TODO', {
+                        id: function (a, state) {
+                            return a.payload.id;
+                        },
+                        run: function (a, state) {
+                            // we need to introduce the delay to "enable" switchMap
+                            return of_1.of({ type: 'TODO', payload: a.payload }).delay(1);
                         },
                         onError: function (a, e) {
                             return null;
@@ -284,12 +345,13 @@ describe('DataPersistence', function () {
                 return __generator(this, function (_b) {
                     switch (_b.label) {
                         case 0:
-                            actions = of_1.of({ type: 'GET_TODOS', payload: {} });
+                            actions =
+                                of_1.of({ type: 'GET_TODO', payload: { id: 1, value: '1' } }, { type: 'GET_TODO', payload: { id: 2, value: '2a' } }, { type: 'GET_TODO', payload: { id: 2, value: '2b' } });
                             _a = expect;
                             return [4 /*yield*/, testing_4.readAll(testing_1.TestBed.get(TodoEffects).loadTodo)];
                         case 1:
                             _a.apply(void 0, [_b.sent()]).toEqual([
-                                { type: 'TODOS', payload: { user: 'bob', todos: 'some todos' } }
+                                { type: 'TODO', payload: { id: 1, value: '1' } }, { type: 'TODO', payload: { id: 2, value: '2b' } }
                             ]);
                             done();
                             return [2 /*return*/];
