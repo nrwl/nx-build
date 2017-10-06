@@ -108,9 +108,7 @@ describe('DataPersistence', function () {
                         run: function (a, state) {
                             return ({ type: 'TODO_LOADED', payload: { id: a.params['id'], user: state.user } });
                         },
-                        onError: function () {
-                            return null;
-                        }
+                        onError: function () { return null; }
                     });
                 }
                 TodoEffects.decorators = [
@@ -151,9 +149,7 @@ describe('DataPersistence', function () {
                                 return ({ type: 'TODO_LOADED', payload: { id: a.params['id'], user: state.user } });
                             }
                         },
-                        onError: function (a, e) {
-                            return ({ type: 'ERROR', payload: { error: e } });
-                        }
+                        onError: function (a, e) { return ({ type: 'ERROR', payload: { error: e } }); }
                     });
                 }
                 TodoEffects.decorators = [
@@ -202,9 +198,7 @@ describe('DataPersistence', function () {
                                 return ({ type: 'TODO_LOADED', payload: { id: a.params['id'], user: state.user } });
                             }
                         },
-                        onError: function (a, e) {
-                            return ({ type: 'ERROR', payload: { error: e } });
-                        }
+                        onError: function (a, e) { return ({ type: 'ERROR', payload: { error: e } }); }
                     });
                 }
                 TodoEffects.decorators = [
@@ -253,9 +247,7 @@ describe('DataPersistence', function () {
                             // we need to introduce the delay to "enable" switchMap
                             return of_1.of({ type: 'TODOS', payload: { user: state.user, todos: 'some todos' } }).delay(1);
                         },
-                        onError: function (a, e) {
-                            return null;
-                        }
+                        onError: function (a, e) { return null; }
                     });
                 }
                 TodoEffects.decorators = [
@@ -305,16 +297,9 @@ describe('DataPersistence', function () {
                 function TodoEffects(s) {
                     this.s = s;
                     this.loadTodo = this.s.fetch('GET_TODO', {
-                        id: function (a, state) {
-                            return a.payload.id;
-                        },
-                        run: function (a, state) {
-                            // we need to introduce the delay to "enable" switchMap
-                            return of_1.of({ type: 'TODO', payload: a.payload }).delay(1);
-                        },
-                        onError: function (a, e) {
-                            return null;
-                        }
+                        id: function (a, state) { return a.payload.id; },
+                        run: function (a, state) { return of_1.of({ type: 'TODO', payload: a.payload }).delay(1); },
+                        onError: function (a, e) { return null; }
                     });
                 }
                 TodoEffects.decorators = [
@@ -372,9 +357,7 @@ describe('DataPersistence', function () {
                         run: function (a, state) {
                             return ({ type: 'TODO_UPDATED', payload: { user: state.user, newTitle: a.payload.newTitle } });
                         },
-                        onError: function (a, e) {
-                            return null;
-                        }
+                        onError: function (a, e) { return null; }
                     });
                 }
                 TodoEffects.decorators = [
@@ -426,9 +409,7 @@ describe('DataPersistence', function () {
                         run: function (a, state) {
                             throw new Error('boom');
                         },
-                        onError: function (a, e) {
-                            return ({ type: 'ERROR', payload: { error: e } });
-                        }
+                        onError: function (a, e) { return ({ type: 'ERROR', payload: { error: e } }); }
                     });
                 }
                 TodoEffects.decorators = [
@@ -479,9 +460,7 @@ describe('DataPersistence', function () {
                         run: function (a, state) {
                             return throw_1._throw('boom');
                         },
-                        onError: function (a, e) {
-                            return ({ type: 'ERROR', payload: { error: e } });
-                        }
+                        onError: function (a, e) { return ({ type: 'ERROR', payload: { error: e } }); }
                     });
                 }
                 TodoEffects.decorators = [
@@ -537,9 +516,7 @@ describe('DataPersistence', function () {
                         run: function (a, state) {
                             throw new Error('boom');
                         },
-                        undoAction: function (a, e) {
-                            return ({ type: 'UNDO_UPDATE_TODO', payload: a.payload });
-                        }
+                        undoAction: function (a, e) { return ({ type: 'UNDO_UPDATE_TODO', payload: a.payload }); }
                     });
                 }
                 TodoEffects.decorators = [
