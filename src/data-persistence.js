@@ -176,7 +176,9 @@ var DataPersistence = (function () {
         var allPairs = withLatestFrom_1.withLatestFrom.call(nav, this.store);
         if (opts.id) {
             var groupedFetches = groupBy_1.groupBy.call(allPairs, function (p) { return opts.id(p[0], p[1]); });
-            return mergeMap_1.mergeMap.call(groupedFetches, function (pairs) { return switchMap_1.switchMap.call(pairs, _this.runWithErrorHandling(opts.run, opts.onError)); });
+            return mergeMap_1.mergeMap.call(groupedFetches, function (pairs) {
+                return switchMap_1.switchMap.call(pairs, _this.runWithErrorHandling(opts.run, opts.onError));
+            });
         }
         else {
             return concatMap_1.concatMap.call(allPairs, this.runWithErrorHandling(opts.run, opts.onError));
@@ -217,7 +219,9 @@ var DataPersistence = (function () {
      *
      */
     DataPersistence.prototype.navigation = function (component, opts) {
-        var nav = filter_1.filter.call(map_1.map.call(this.actions.ofType(router_store_1.ROUTER_NAVIGATION), function (a) { return findSnapshot(component, a.payload.routerState.root); }), function (s) { return !!s; });
+        var nav = filter_1.filter.call(map_1.map.call(this.actions.ofType(router_store_1.ROUTER_NAVIGATION), function (a) {
+            return findSnapshot(component, a.payload.routerState.root);
+        }), function (s) { return !!s; });
         var pairs = withLatestFrom_1.withLatestFrom.call(nav, this.store);
         return switchMap_1.switchMap.call(pairs, this.runWithErrorHandling(opts.run, opts.onError));
     };
