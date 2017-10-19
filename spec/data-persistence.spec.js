@@ -1,4 +1,13 @@
 "use strict";
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -63,30 +72,25 @@ function todosReducer(state, action) {
 function userReducer(state, action) {
     return 'bob';
 }
-var RootCmp = (function () {
+var RootCmp = /** @class */ (function () {
     function RootCmp() {
     }
-    RootCmp.decorators = [
-        { type: core_1.Component, args: [{ template: "ROOT[<router-outlet></router-outlet>]" },] },
-    ];
-    /** @nocollapse */
-    RootCmp.ctorParameters = function () { return []; };
+    RootCmp = __decorate([
+        core_1.Component({ template: "ROOT[<router-outlet></router-outlet>]" })
+    ], RootCmp);
     return RootCmp;
 }());
-var TodoComponent = (function () {
+var TodoComponent = /** @class */ (function () {
     function TodoComponent(store) {
         this.store = store;
         this.todo = this.store.select('todos', 'selected');
     }
-    TodoComponent.decorators = [
-        { type: core_1.Component, args: [{
-                    template: "\n      Todo [\n        <div *ngIf=\"(todo|async) as t\">\n           ID {{t.id}}\n           User {{t.user}}\n        </div>\n      ]\n    "
-                },] },
-    ];
-    /** @nocollapse */
-    TodoComponent.ctorParameters = function () { return [
-        { type: store_1.Store, },
-    ]; };
+    TodoComponent = __decorate([
+        core_1.Component({
+            template: "\n      Todo [\n        <div *ngIf=\"(todo|async) as t\">\n           ID {{t.id}}\n           User {{t.user}}\n        </div>\n      ]\n    "
+        }),
+        __metadata("design:paramtypes", [store_1.Store])
+    ], TodoComponent);
     return TodoComponent;
 }());
 describe('DataPersistence', function () {
@@ -103,7 +107,7 @@ describe('DataPersistence', function () {
             });
         });
         describe('successful navigation', function () {
-            var TodoEffects = (function () {
+            var TodoEffects = /** @class */ (function () {
                 function TodoEffects(s) {
                     this.s = s;
                     this.loadTodo = this.s.navigation(TodoComponent, {
@@ -116,16 +120,14 @@ describe('DataPersistence', function () {
                         onError: function () { return null; }
                     });
                 }
-                TodoEffects.decorators = [
-                    { type: core_1.Injectable },
-                ];
-                /** @nocollapse */
-                TodoEffects.ctorParameters = function () { return [
-                    { type: index_1.DataPersistence, },
-                ]; };
-                TodoEffects.propDecorators = {
-                    'loadTodo': [{ type: effects_1.Effect },],
-                };
+                __decorate([
+                    effects_1.Effect(),
+                    __metadata("design:type", Object)
+                ], TodoEffects.prototype, "loadTodo", void 0);
+                TodoEffects = __decorate([
+                    core_1.Injectable(),
+                    __metadata("design:paramtypes", [index_1.DataPersistence])
+                ], TodoEffects);
                 return TodoEffects;
             }());
             beforeEach(function () {
@@ -145,7 +147,7 @@ describe('DataPersistence', function () {
             }));
         });
         describe('`run` throwing an error', function () {
-            var TodoEffects = (function () {
+            var TodoEffects = /** @class */ (function () {
                 function TodoEffects(s) {
                     this.s = s;
                     this.loadTodo = this.s.navigation(TodoComponent, {
@@ -163,16 +165,14 @@ describe('DataPersistence', function () {
                         onError: function (a, e) { return ({ type: 'ERROR', payload: { error: e } }); }
                     });
                 }
-                TodoEffects.decorators = [
-                    { type: core_1.Injectable },
-                ];
-                /** @nocollapse */
-                TodoEffects.ctorParameters = function () { return [
-                    { type: index_1.DataPersistence, },
-                ]; };
-                TodoEffects.propDecorators = {
-                    'loadTodo': [{ type: effects_1.Effect },],
-                };
+                __decorate([
+                    effects_1.Effect(),
+                    __metadata("design:type", Object)
+                ], TodoEffects.prototype, "loadTodo", void 0);
+                TodoEffects = __decorate([
+                    core_1.Injectable(),
+                    __metadata("design:paramtypes", [index_1.DataPersistence])
+                ], TodoEffects);
                 return TodoEffects;
             }());
             beforeEach(function () {
@@ -200,7 +200,7 @@ describe('DataPersistence', function () {
             }));
         });
         describe('`run` returning an error observable', function () {
-            var TodoEffects = (function () {
+            var TodoEffects = /** @class */ (function () {
                 function TodoEffects(s) {
                     this.s = s;
                     this.loadTodo = this.s.navigation(TodoComponent, {
@@ -218,16 +218,14 @@ describe('DataPersistence', function () {
                         onError: function (a, e) { return ({ type: 'ERROR', payload: { error: e } }); }
                     });
                 }
-                TodoEffects.decorators = [
-                    { type: core_1.Injectable },
-                ];
-                /** @nocollapse */
-                TodoEffects.ctorParameters = function () { return [
-                    { type: index_1.DataPersistence, },
-                ]; };
-                TodoEffects.propDecorators = {
-                    'loadTodo': [{ type: effects_1.Effect },],
-                };
+                __decorate([
+                    effects_1.Effect(),
+                    __metadata("design:type", Object)
+                ], TodoEffects.prototype, "loadTodo", void 0);
+                TodoEffects = __decorate([
+                    core_1.Injectable(),
+                    __metadata("design:paramtypes", [index_1.DataPersistence])
+                ], TodoEffects);
                 return TodoEffects;
             }());
             beforeEach(function () {
@@ -259,7 +257,7 @@ describe('DataPersistence', function () {
             testing_1.TestBed.configureTestingModule({ providers: [index_1.DataPersistence] });
         });
         describe('no id', function () {
-            var TodoEffects = (function () {
+            var TodoEffects = /** @class */ (function () {
                 function TodoEffects(s) {
                     this.s = s;
                     this.loadTodos = this.s.fetch('GET_TODOS', {
@@ -273,16 +271,14 @@ describe('DataPersistence', function () {
                         onError: function (a, e) { return null; }
                     });
                 }
-                TodoEffects.decorators = [
-                    { type: core_1.Injectable },
-                ];
-                /** @nocollapse */
-                TodoEffects.ctorParameters = function () { return [
-                    { type: index_1.DataPersistence, },
-                ]; };
-                TodoEffects.propDecorators = {
-                    'loadTodos': [{ type: effects_1.Effect },],
-                };
+                __decorate([
+                    effects_1.Effect(),
+                    __metadata("design:type", Object)
+                ], TodoEffects.prototype, "loadTodos", void 0);
+                TodoEffects = __decorate([
+                    core_1.Injectable(),
+                    __metadata("design:paramtypes", [index_1.DataPersistence])
+                ], TodoEffects);
                 return TodoEffects;
             }());
             function userReducer() {
@@ -316,7 +312,7 @@ describe('DataPersistence', function () {
             }); });
         });
         describe('id', function () {
-            var TodoEffects = (function () {
+            var TodoEffects = /** @class */ (function () {
                 function TodoEffects(s) {
                     this.s = s;
                     this.loadTodo = this.s.fetch('GET_TODO', {
@@ -325,16 +321,14 @@ describe('DataPersistence', function () {
                         onError: function (a, e) { return null; }
                     });
                 }
-                TodoEffects.decorators = [
-                    { type: core_1.Injectable },
-                ];
-                /** @nocollapse */
-                TodoEffects.ctorParameters = function () { return [
-                    { type: index_1.DataPersistence, },
-                ]; };
-                TodoEffects.propDecorators = {
-                    'loadTodo': [{ type: effects_1.Effect },],
-                };
+                __decorate([
+                    effects_1.Effect(),
+                    __metadata("design:type", Object)
+                ], TodoEffects.prototype, "loadTodo", void 0);
+                TodoEffects = __decorate([
+                    core_1.Injectable(),
+                    __metadata("design:paramtypes", [index_1.DataPersistence])
+                ], TodoEffects);
                 return TodoEffects;
             }());
             function userReducer() {
@@ -373,27 +367,27 @@ describe('DataPersistence', function () {
             testing_1.TestBed.configureTestingModule({ providers: [index_1.DataPersistence] });
         });
         describe('successful', function () {
-            var TodoEffects = (function () {
+            var TodoEffects = /** @class */ (function () {
                 function TodoEffects(s) {
                     this.s = s;
                     this.loadTodo = this.s.pessimisticUpdate('UPDATE_TODO', {
-                        run: function (a, state) { return ({
-                            type: 'TODO_UPDATED',
-                            payload: { user: state.user, newTitle: a.payload.newTitle }
-                        }); },
+                        run: function (a, state) {
+                            return ({
+                                type: 'TODO_UPDATED',
+                                payload: { user: state.user, newTitle: a.payload.newTitle }
+                            });
+                        },
                         onError: function (a, e) { return null; }
                     });
                 }
-                TodoEffects.decorators = [
-                    { type: core_1.Injectable },
-                ];
-                /** @nocollapse */
-                TodoEffects.ctorParameters = function () { return [
-                    { type: index_1.DataPersistence, },
-                ]; };
-                TodoEffects.propDecorators = {
-                    'loadTodo': [{ type: effects_1.Effect },],
-                };
+                __decorate([
+                    effects_1.Effect(),
+                    __metadata("design:type", Object)
+                ], TodoEffects.prototype, "loadTodo", void 0);
+                TodoEffects = __decorate([
+                    core_1.Injectable(),
+                    __metadata("design:paramtypes", [index_1.DataPersistence])
+                ], TodoEffects);
                 return TodoEffects;
             }());
             function userReducer() {
@@ -432,29 +426,29 @@ describe('DataPersistence', function () {
             }); });
         });
         describe('`run` throws an error', function () {
-            var TodoEffects = (function () {
+            var TodoEffects = /** @class */ (function () {
                 function TodoEffects(s) {
                     this.s = s;
                     this.loadTodo = this.s.pessimisticUpdate('UPDATE_TODO', {
                         run: function (a, state) {
                             throw new Error('boom');
                         },
-                        onError: function (a, e) { return ({
-                            type: 'ERROR',
-                            payload: { error: e }
-                        }); }
+                        onError: function (a, e) {
+                            return ({
+                                type: 'ERROR',
+                                payload: { error: e }
+                            });
+                        }
                     });
                 }
-                TodoEffects.decorators = [
-                    { type: core_1.Injectable },
-                ];
-                /** @nocollapse */
-                TodoEffects.ctorParameters = function () { return [
-                    { type: index_1.DataPersistence, },
-                ]; };
-                TodoEffects.propDecorators = {
-                    'loadTodo': [{ type: effects_1.Effect },],
-                };
+                __decorate([
+                    effects_1.Effect(),
+                    __metadata("design:type", Object)
+                ], TodoEffects.prototype, "loadTodo", void 0);
+                TodoEffects = __decorate([
+                    core_1.Injectable(),
+                    __metadata("design:paramtypes", [index_1.DataPersistence])
+                ], TodoEffects);
                 return TodoEffects;
             }());
             function userReducer() {
@@ -489,29 +483,29 @@ describe('DataPersistence', function () {
             }); });
         });
         describe('`run` returns an observable that errors', function () {
-            var TodoEffects = (function () {
+            var TodoEffects = /** @class */ (function () {
                 function TodoEffects(s) {
                     this.s = s;
                     this.loadTodo = this.s.pessimisticUpdate('UPDATE_TODO', {
                         run: function (a, state) {
                             return throw_1._throw('boom');
                         },
-                        onError: function (a, e) { return ({
-                            type: 'ERROR',
-                            payload: { error: e }
-                        }); }
+                        onError: function (a, e) {
+                            return ({
+                                type: 'ERROR',
+                                payload: { error: e }
+                            });
+                        }
                     });
                 }
-                TodoEffects.decorators = [
-                    { type: core_1.Injectable },
-                ];
-                /** @nocollapse */
-                TodoEffects.ctorParameters = function () { return [
-                    { type: index_1.DataPersistence, },
-                ]; };
-                TodoEffects.propDecorators = {
-                    'loadTodo': [{ type: effects_1.Effect },],
-                };
+                __decorate([
+                    effects_1.Effect(),
+                    __metadata("design:type", Object)
+                ], TodoEffects.prototype, "loadTodo", void 0);
+                TodoEffects = __decorate([
+                    core_1.Injectable(),
+                    __metadata("design:paramtypes", [index_1.DataPersistence])
+                ], TodoEffects);
                 return TodoEffects;
             }());
             function userReducer() {
@@ -551,29 +545,29 @@ describe('DataPersistence', function () {
             testing_1.TestBed.configureTestingModule({ providers: [index_1.DataPersistence] });
         });
         describe('`run` throws an error', function () {
-            var TodoEffects = (function () {
+            var TodoEffects = /** @class */ (function () {
                 function TodoEffects(s) {
                     this.s = s;
                     this.loadTodo = this.s.optimisticUpdate('UPDATE_TODO', {
                         run: function (a, state) {
                             throw new Error('boom');
                         },
-                        undoAction: function (a, e) { return ({
-                            type: 'UNDO_UPDATE_TODO',
-                            payload: a.payload
-                        }); }
+                        undoAction: function (a, e) {
+                            return ({
+                                type: 'UNDO_UPDATE_TODO',
+                                payload: a.payload
+                            });
+                        }
                     });
                 }
-                TodoEffects.decorators = [
-                    { type: core_1.Injectable },
-                ];
-                /** @nocollapse */
-                TodoEffects.ctorParameters = function () { return [
-                    { type: index_1.DataPersistence, },
-                ]; };
-                TodoEffects.propDecorators = {
-                    'loadTodo': [{ type: effects_1.Effect },],
-                };
+                __decorate([
+                    effects_1.Effect(),
+                    __metadata("design:type", Object)
+                ], TodoEffects.prototype, "loadTodo", void 0);
+                TodoEffects = __decorate([
+                    core_1.Injectable(),
+                    __metadata("design:paramtypes", [index_1.DataPersistence])
+                ], TodoEffects);
                 return TodoEffects;
             }());
             function userReducer() {
