@@ -1,22 +1,13 @@
 {
   "name": "@nrwl/nx",
-  "version": "0.0.7+7219c8a",
+  "version": "0.0.8+a3e8bfd",
   "description": "Nrwl Extensions for Angular",
   "main": "index.js",
   "types": "index.d.js",
   "dependencies": {
     "jasmine-marbles": "0.1.0"
   },
-  "peerDependencies": {
-    "rxjs": ">5.4.2",
-    "@angular/core": ">4.0.0",
-    "@angular/common": ">4.0.0",
-    "@angular/router": ">4.0.0",
-    "@angular/platform-browser": ">4.0.0",
-    "@ngrx/store": ">4.0.0",
-    "@ngrx/router-store": ">4.0.0",
-    "@ngrx/effects": ">4.0.0"
-  },
+  "peerDependencies": {},
   "author": "Victor Savkin",
   "license": "MIT"
 }

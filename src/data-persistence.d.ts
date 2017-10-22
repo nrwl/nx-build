@@ -6,30 +6,30 @@ import { Observable } from 'rxjs/Observable';
 /**
  * See {@link DataPersistence.pessimisticUpdate} for more information.
  */
-export interface PessimisticUpdateOpts {
-    run(a: Action, state?: any): Observable<Action> | Action | void;
-    onError(a: Action, e: any): Observable<any> | any;
+export interface PessimisticUpdateOpts<T, A> {
+    run(a: A, state?: T): Observable<Action> | Action | void;
+    onError(a: A, e: any): Observable<any> | any;
 }
 /**
  * See {@link DataPersistence.pessimisticUpdate} for more information.
  */
-export interface OptimisticUpdateOpts {
-    run(a: Action, state?: any): Observable<any> | any;
-    undoAction(a: Action, e: any): Observable<Action> | Action;
+export interface OptimisticUpdateOpts<T, A> {
+    run(a: A, state?: T): Observable<Action> | Action | void;
+    undoAction(a: A, e: any): Observable<Action> | Action;
 }
 /**
  * See {@link DataPersistence.navigation} for more information.
  */
-export interface FetchOpts {
-    id?(a: Action, state?: any): any;
-    run(a: Action, state?: any): Observable<Action> | Action | void;
-    onError?(a: Action, e: any): Observable<any> | any;
+export interface FetchOpts<T, A> {
+    id?(a: A, state?: T): any;
+    run(a: A, state?: T): Observable<Action> | Action | void;
+    onError?(a: A, e: any): Observable<any> | any;
 }
 /**
  * See {@link DataPersistence.navigation} for more information.
  */
-export interface HandleNavigationOpts {
-    run(a: ActivatedRouteSnapshot, state?: any): Observable<Action> | Action | void;
+export interface HandleNavigationOpts<T> {
+    run(a: ActivatedRouteSnapshot, state?: T): Observable<Action> | Action | void;
     onError?(a: ActivatedRouteSnapshot, e: any): Observable<any> | any;
 }
 /**
@@ -53,9 +53,9 @@ export declare class DataPersistence<T> {
      * ```typescript
      * @Injectable()
      * class TodoEffects {
-     *   @Effect() updateTodo = this.s.pessimisticUpdate('UPDATE_TODO', {
+     *   @Effect() updateTodo = this.s.pessimisticUpdate<UpdateTodo>('UPDATE_TODO', {
      *     // provides an action and the current state of the store
-     *     run(a: UpdateTodo, state: TodosState) {
+     *     run(a, state) {
      *       // update the backend first, and then dispatch an action that will
      *       // update the client side
      *       return this.backend(state.user, a.payload).map(updated => ({
@@ -64,7 +64,7 @@ export declare class DataPersistence<T> {
      *       }));
      *     },
      *
-     *     onError(a: UpdateTodo, e: any) {
+     *     onError(a, e: any) {
      *       // we don't need to undo the changes on the client side.
      *       // we can dispatch an error, or simply log the error here and return `null`
      *       return null;
@@ -75,7 +75,7 @@ export declare class DataPersistence<T> {
      * }
      * ```
      */
-    pessimisticUpdate(actionType: string, opts: PessimisticUpdateOpts): Observable<any>;
+    pessimisticUpdate<A = Action>(actionType: string, opts: PessimisticUpdateOpts<T, A>): Observable<any>;
     /**
      *
      * @whatItDoes Handles optimistic updates (updating the client first).
@@ -93,13 +93,13 @@ export declare class DataPersistence<T> {
      * ```typescript
      * @Injectable()
      * class TodoEffects {
-     *   @Effect() updateTodo = this.s.optimisticUpdate('UPDATE_TODO', {
+     *   @Effect() updateTodo = this.s.optimisticUpdate<UpdateTodo>('UPDATE_TODO', {
      *     // provides an action and the current state of the store
-     *     run: (a: UpdateTodo, state: TodosState) => {
+     *     run: (a, state) => {
      *       return this.backend(state.user, a.payload);
      *     },
      *
-     *     undoAction: (a: UpdateTodo, e: any) => {
+     *     undoAction: (a, e: any) => {
      *       // dispatch an undo action to undo the changes in the client state
      *       return ({
      *         type: 'UNDO_UPDATE_TODO',
@@ -112,7 +112,7 @@ export declare class DataPersistence<T> {
      * }
      * ```
      */
-    optimisticUpdate(actionType: string, opts: OptimisticUpdateOpts): Observable<any>;
+    optimisticUpdate<A = Action>(actionType: string, opts: OptimisticUpdateOpts<T, A>): Observable<any>;
     /**
      *
      * @whatItDoes Handles data fetching.
@@ -127,16 +127,16 @@ export declare class DataPersistence<T> {
      * ```typescript
      * @Injectable()
      * class TodoEffects {
-     *   @Effect() loadTodos = this.s.fetch('GET_TODOS', {
+     *   @Effect() loadTodos = this.s.fetch<GetTodos>('GET_TODOS', {
      *     // provides an action and the current state of the store
-     *     run: (a: GetTodos, state: TodosState) => {
+     *     run: (a, state) => {
      *       return this.backend(state.user, a.payload).map(r => ({
      *         type: 'TODOS',
      *         payload: r
      *       });
      *     },
      *
-     *     onError: (a: GetTodos, e: any) => {
+     *     onError: (a, e: any) => {
      *       // dispatch an undo action to undo the changes in the client state
      *     }
      *   });
@@ -152,20 +152,20 @@ export declare class DataPersistence<T> {
      * ```typescript
      * @Injectable()
      * class TodoEffects {
-     *   @Effect() loadTodo = this.s.fetch('GET_TODO', {
-     *     id: (a: GetTodo, state: TodosState) => {
+     *   @Effect() loadTodo = this.s.fetch<GetTodo>('GET_TODO', {
+     *     id: (a, state) => {
      *       return a.payload.id;
      *     }
      *
      *     // provides an action and the current state of the store
-     *     run: (a: GetTodo, state: TodosState) => {
+     *     run: (a, state) => {
      *       return this.backend(state.user, a.payload).map(r => ({
      *         type: 'TODO',
      *         payload: r
      *       });
      *     },
      *
-     *     onError: (a: GetTodo, e: any) => {
+     *     onError: (a, e: any) => {
      *       // dispatch an undo action to undo the changes in the client state
      *       return null;
      *     }
@@ -180,7 +180,7 @@ export declare class DataPersistence<T> {
      * In addition, if DataPersistence notices that there are multiple requests for Todo 1 scheduled,
      * it will only run the last one.
      */
-    fetch(actionType: string, opts: FetchOpts): Observable<any>;
+    fetch<A = Action>(actionType: string, opts: FetchOpts<T, A>): Observable<any>;
     /**
      * @whatItDoes Handles data fetching as part of router navigation.
      *
@@ -198,13 +198,13 @@ export declare class DataPersistence<T> {
      * @Injectable()
      * class TodoEffects {
      *   @Effect() loadTodo = this.s.navigation(TodoComponent, {
-     *     run: (a: ActivatedRouteSnapshot, state: TodosState) => {
+     *     run: (a, state) => {
      *       return this.backend.fetchTodo(a.params['id']).map(todo => ({
      *         type: 'TODO_LOADED',
      *         payload: todo
      *       }));
      *     },
-     *     onError: (a: ActivatedRouteSnapshot, e: any) => {
+     *     onError: (a, e: any) => {
      *       // we can log and error here and return null
      *       // we can also navigate back
      *       return null;
@@ -215,6 +215,6 @@ export declare class DataPersistence<T> {
      * ```
      *
      */
-    navigation(component: Type<any>, opts: HandleNavigationOpts): Observable<any>;
+    navigation(component: Type<any>, opts: HandleNavigationOpts<T>): Observable<any>;
     private runWithErrorHandling(run, onError);
 }

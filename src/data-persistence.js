@@ -44,9 +44,9 @@ var DataPersistence = /** @class */ (function () {
      * ```typescript
      * @Injectable()
      * class TodoEffects {
-     *   @Effect() updateTodo = this.s.pessimisticUpdate('UPDATE_TODO', {
+     *   @Effect() updateTodo = this.s.pessimisticUpdate<UpdateTodo>('UPDATE_TODO', {
      *     // provides an action and the current state of the store
-     *     run(a: UpdateTodo, state: TodosState) {
+     *     run(a, state) {
      *       // update the backend first, and then dispatch an action that will
      *       // update the client side
      *       return this.backend(state.user, a.payload).map(updated => ({
@@ -55,7 +55,7 @@ var DataPersistence = /** @class */ (function () {
      *       }));
      *     },
      *
-     *     onError(a: UpdateTodo, e: any) {
+     *     onError(a, e: any) {
      *       // we don't need to undo the changes on the client side.
      *       // we can dispatch an error, or simply log the error here and return `null`
      *       return null;
@@ -80,9 +80,9 @@ var DataPersistence = /** @class */ (function () {
        * ```typescript
        * @Injectable()
        * class TodoEffects {
-       *   @Effect() updateTodo = this.s.pessimisticUpdate('UPDATE_TODO', {
+       *   @Effect() updateTodo = this.s.pessimisticUpdate<UpdateTodo>('UPDATE_TODO', {
        *     // provides an action and the current state of the store
-       *     run(a: UpdateTodo, state: TodosState) {
+       *     run(a, state) {
        *       // update the backend first, and then dispatch an action that will
        *       // update the client side
        *       return this.backend(state.user, a.payload).map(updated => ({
@@ -91,7 +91,7 @@ var DataPersistence = /** @class */ (function () {
        *       }));
        *     },
        *
-       *     onError(a: UpdateTodo, e: any) {
+       *     onError(a, e: any) {
        *       // we don't need to undo the changes on the client side.
        *       // we can dispatch an error, or simply log the error here and return `null`
        *       return null;
@@ -116,9 +116,9 @@ var DataPersistence = /** @class */ (function () {
        * ```typescript
        * @Injectable()
        * class TodoEffects {
-       *   @Effect() updateTodo = this.s.pessimisticUpdate('UPDATE_TODO', {
+       *   @Effect() updateTodo = this.s.pessimisticUpdate<UpdateTodo>('UPDATE_TODO', {
        *     // provides an action and the current state of the store
-       *     run(a: UpdateTodo, state: TodosState) {
+       *     run(a, state) {
        *       // update the backend first, and then dispatch an action that will
        *       // update the client side
        *       return this.backend(state.user, a.payload).map(updated => ({
@@ -127,7 +127,7 @@ var DataPersistence = /** @class */ (function () {
        *       }));
        *     },
        *
-       *     onError(a: UpdateTodo, e: any) {
+       *     onError(a, e: any) {
        *       // we don't need to undo the changes on the client side.
        *       // we can dispatch an error, or simply log the error here and return `null`
        *       return null;
@@ -160,13 +160,13 @@ var DataPersistence = /** @class */ (function () {
      * ```typescript
      * @Injectable()
      * class TodoEffects {
-     *   @Effect() updateTodo = this.s.optimisticUpdate('UPDATE_TODO', {
+     *   @Effect() updateTodo = this.s.optimisticUpdate<UpdateTodo>('UPDATE_TODO', {
      *     // provides an action and the current state of the store
-     *     run: (a: UpdateTodo, state: TodosState) => {
+     *     run: (a, state) => {
      *       return this.backend(state.user, a.payload);
      *     },
      *
-     *     undoAction: (a: UpdateTodo, e: any) => {
+     *     undoAction: (a, e: any) => {
      *       // dispatch an undo action to undo the changes in the client state
      *       return ({
      *         type: 'UNDO_UPDATE_TODO',
@@ -196,13 +196,13 @@ var DataPersistence = /** @class */ (function () {
        * ```typescript
        * @Injectable()
        * class TodoEffects {
-       *   @Effect() updateTodo = this.s.optimisticUpdate('UPDATE_TODO', {
+       *   @Effect() updateTodo = this.s.optimisticUpdate<UpdateTodo>('UPDATE_TODO', {
        *     // provides an action and the current state of the store
-       *     run: (a: UpdateTodo, state: TodosState) => {
+       *     run: (a, state) => {
        *       return this.backend(state.user, a.payload);
        *     },
        *
-       *     undoAction: (a: UpdateTodo, e: any) => {
+       *     undoAction: (a, e: any) => {
        *       // dispatch an undo action to undo the changes in the client state
        *       return ({
        *         type: 'UNDO_UPDATE_TODO',
@@ -232,13 +232,13 @@ var DataPersistence = /** @class */ (function () {
        * ```typescript
        * @Injectable()
        * class TodoEffects {
-       *   @Effect() updateTodo = this.s.optimisticUpdate('UPDATE_TODO', {
+       *   @Effect() updateTodo = this.s.optimisticUpdate<UpdateTodo>('UPDATE_TODO', {
        *     // provides an action and the current state of the store
-       *     run: (a: UpdateTodo, state: TodosState) => {
+       *     run: (a, state) => {
        *       return this.backend(state.user, a.payload);
        *     },
        *
-       *     undoAction: (a: UpdateTodo, e: any) => {
+       *     undoAction: (a, e: any) => {
        *       // dispatch an undo action to undo the changes in the client state
        *       return ({
        *         type: 'UNDO_UPDATE_TODO',
@@ -270,16 +270,16 @@ var DataPersistence = /** @class */ (function () {
      * ```typescript
      * @Injectable()
      * class TodoEffects {
-     *   @Effect() loadTodos = this.s.fetch('GET_TODOS', {
+     *   @Effect() loadTodos = this.s.fetch<GetTodos>('GET_TODOS', {
      *     // provides an action and the current state of the store
-     *     run: (a: GetTodos, state: TodosState) => {
+     *     run: (a, state) => {
      *       return this.backend(state.user, a.payload).map(r => ({
      *         type: 'TODOS',
      *         payload: r
      *       });
      *     },
      *
-     *     onError: (a: GetTodos, e: any) => {
+     *     onError: (a, e: any) => {
      *       // dispatch an undo action to undo the changes in the client state
      *     }
      *   });
@@ -295,20 +295,20 @@ var DataPersistence = /** @class */ (function () {
      * ```typescript
      * @Injectable()
      * class TodoEffects {
-     *   @Effect() loadTodo = this.s.fetch('GET_TODO', {
-     *     id: (a: GetTodo, state: TodosState) => {
+     *   @Effect() loadTodo = this.s.fetch<GetTodo>('GET_TODO', {
+     *     id: (a, state) => {
      *       return a.payload.id;
      *     }
      *
      *     // provides an action and the current state of the store
-     *     run: (a: GetTodo, state: TodosState) => {
+     *     run: (a, state) => {
      *       return this.backend(state.user, a.payload).map(r => ({
      *         type: 'TODO',
      *         payload: r
      *       });
      *     },
      *
-     *     onError: (a: GetTodo, e: any) => {
+     *     onError: (a, e: any) => {
      *       // dispatch an undo action to undo the changes in the client state
      *       return null;
      *     }
@@ -337,16 +337,16 @@ var DataPersistence = /** @class */ (function () {
        * ```typescript
        * @Injectable()
        * class TodoEffects {
-       *   @Effect() loadTodos = this.s.fetch('GET_TODOS', {
+       *   @Effect() loadTodos = this.s.fetch<GetTodos>('GET_TODOS', {
        *     // provides an action and the current state of the store
-       *     run: (a: GetTodos, state: TodosState) => {
+       *     run: (a, state) => {
        *       return this.backend(state.user, a.payload).map(r => ({
        *         type: 'TODOS',
        *         payload: r
        *       });
        *     },
        *
-       *     onError: (a: GetTodos, e: any) => {
+       *     onError: (a, e: any) => {
        *       // dispatch an undo action to undo the changes in the client state
        *     }
        *   });
@@ -362,20 +362,20 @@ var DataPersistence = /** @class */ (function () {
        * ```typescript
        * @Injectable()
        * class TodoEffects {
-       *   @Effect() loadTodo = this.s.fetch('GET_TODO', {
-       *     id: (a: GetTodo, state: TodosState) => {
+       *   @Effect() loadTodo = this.s.fetch<GetTodo>('GET_TODO', {
+       *     id: (a, state) => {
        *       return a.payload.id;
        *     }
        *
        *     // provides an action and the current state of the store
-       *     run: (a: GetTodo, state: TodosState) => {
+       *     run: (a, state) => {
        *       return this.backend(state.user, a.payload).map(r => ({
        *         type: 'TODO',
        *         payload: r
        *       });
        *     },
        *
-       *     onError: (a: GetTodo, e: any) => {
+       *     onError: (a, e: any) => {
        *       // dispatch an undo action to undo the changes in the client state
        *       return null;
        *     }
@@ -404,16 +404,16 @@ var DataPersistence = /** @class */ (function () {
        * ```typescript
        * @Injectable()
        * class TodoEffects {
-       *   @Effect() loadTodos = this.s.fetch('GET_TODOS', {
+       *   @Effect() loadTodos = this.s.fetch<GetTodos>('GET_TODOS', {
        *     // provides an action and the current state of the store
-       *     run: (a: GetTodos, state: TodosState) => {
+       *     run: (a, state) => {
        *       return this.backend(state.user, a.payload).map(r => ({
        *         type: 'TODOS',
        *         payload: r
        *       });
        *     },
        *
-       *     onError: (a: GetTodos, e: any) => {
+       *     onError: (a, e: any) => {
        *       // dispatch an undo action to undo the changes in the client state
        *     }
        *   });
@@ -429,20 +429,20 @@ var DataPersistence = /** @class */ (function () {
        * ```typescript
        * @Injectable()
        * class TodoEffects {
-       *   @Effect() loadTodo = this.s.fetch('GET_TODO', {
-       *     id: (a: GetTodo, state: TodosState) => {
+       *   @Effect() loadTodo = this.s.fetch<GetTodo>('GET_TODO', {
+       *     id: (a, state) => {
        *       return a.payload.id;
        *     }
        *
        *     // provides an action and the current state of the store
-       *     run: (a: GetTodo, state: TodosState) => {
+       *     run: (a, state) => {
        *       return this.backend(state.user, a.payload).map(r => ({
        *         type: 'TODO',
        *         payload: r
        *       });
        *     },
        *
-       *     onError: (a: GetTodo, e: any) => {
+       *     onError: (a, e: any) => {
        *       // dispatch an undo action to undo the changes in the client state
        *       return null;
        *     }
@@ -488,13 +488,13 @@ var DataPersistence = /** @class */ (function () {
      * @Injectable()
      * class TodoEffects {
      *   @Effect() loadTodo = this.s.navigation(TodoComponent, {
-     *     run: (a: ActivatedRouteSnapshot, state: TodosState) => {
+     *     run: (a, state) => {
      *       return this.backend.fetchTodo(a.params['id']).map(todo => ({
      *         type: 'TODO_LOADED',
      *         payload: todo
      *       }));
      *     },
-     *     onError: (a: ActivatedRouteSnapshot, e: any) => {
+     *     onError: (a, e: any) => {
      *       // we can log and error here and return null
      *       // we can also navigate back
      *       return null;
@@ -522,13 +522,13 @@ var DataPersistence = /** @class */ (function () {
        * @Injectable()
        * class TodoEffects {
        *   @Effect() loadTodo = this.s.navigation(TodoComponent, {
-       *     run: (a: ActivatedRouteSnapshot, state: TodosState) => {
+       *     run: (a, state) => {
        *       return this.backend.fetchTodo(a.params['id']).map(todo => ({
        *         type: 'TODO_LOADED',
        *         payload: todo
        *       }));
        *     },
-       *     onError: (a: ActivatedRouteSnapshot, e: any) => {
+       *     onError: (a, e: any) => {
        *       // we can log and error here and return null
        *       // we can also navigate back
        *       return null;
@@ -556,13 +556,13 @@ var DataPersistence = /** @class */ (function () {
        * @Injectable()
        * class TodoEffects {
        *   @Effect() loadTodo = this.s.navigation(TodoComponent, {
-       *     run: (a: ActivatedRouteSnapshot, state: TodosState) => {
+       *     run: (a, state) => {
        *       return this.backend.fetchTodo(a.params['id']).map(todo => ({
        *         type: 'TODO_LOADED',
        *         payload: todo
        *       }));
        *     },
-       *     onError: (a: ActivatedRouteSnapshot, e: any) => {
+       *     onError: (a, e: any) => {
        *       // we can log and error here and return null
        *       // we can also navigate back
        *       return null;
